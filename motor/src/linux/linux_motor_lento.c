@@ -18,42 +18,42 @@ void motor_lento(unsigned long int bport, signed short int rotacion)
     switch(j)
       {
       case 0 : {
-	outb(0x01, bport); Delay();
+	outb(1, bport); Delay();
         j += 1;
 	break; }
 
       case 1 : {
-	outb(0x03, bport); Delay();
+	outb(3, bport); Delay();
         j += 1;
 	break; }
 
       case 2 : {
-	outb(0x02, bport); Delay();
+	outb(2, bport); Delay();
         j += 1;
 	break; }
 
       case 3 : {
-	outb(0x06, bport); Delay();
+	outb(6, bport); Delay();
         j += 1;
 	break; }
 
       case 4 : {
-	outb(0x04, bport); Delay();
+	outb(4, bport); Delay();
         j += 1;
 	break; }
 
       case 5 : {
-	outb(0x12, bport); Delay();
+	outb(12, bport); Delay();
         j += 1;
 	break; }
 
       case 6 : {
-	outb(0x08, bport); Delay();
+	outb(8, bport); Delay();
         j += 1;
 	break; }
 
       case 7 : {
-	outb(0x09, bport); Delay();
+	outb(9, bport); Delay();
         j = 0;
 	break; }
       }
@@ -62,45 +62,45 @@ void motor_lento(unsigned long int bport, signed short int rotacion)
     switch(j)
       {
       case 0 : {
-	outb(0x09, bport); Delay();
+	outb(9, bport); Delay();
         j += 1;
 	break; }
 
       case 1 : {
-	outb(0x08, bport); Delay();
+	outb(8, bport); Delay();
         j += 1;
 	break; }
 
       case 2 : {
-	outb(0x12, bport); Delay();
+	outb(12, bport); Delay();
         j += 1;
 	break; }
 
       case 3 : {
-	outb(0x04, bport); Delay();
+	outb(4, bport); Delay();
         j += 1;
 	break; }
 
       case 4 : {
-	outb(0x06, bport); Delay();
+	outb(6, bport); Delay();
         j += 1;
 	break; }
 
       case 5 : {
-	outb(0x02, bport); Delay();
+	outb(2, bport); Delay();
         j += 1;
 	break; }
 
       case 6 : {
-	outb(0x03, bport); Delay();
+	outb(3, bport); Delay();
         j += 1;
 	break; }
 
       case 7 : {
-	outb(0x01, bport); Delay();
+	outb(1, bport); Delay();
         j = 0;
 	break; }
       }
   }
-  fprintf(stderr,".");
+//  fprintf(stderr,".");
 }

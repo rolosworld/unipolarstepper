@@ -17,22 +17,22 @@ void motor_ligero(unsigned long int bport, signed short int rotacion)
     switch(i)
       {
       case 0 : {
-	outb(0x01, bport); Delay();
+	outb(1, bport); Delay();
         i += 1;
 	break; }
 
       case 1 : {
-	outb(0x02, bport); Delay();
+	outb(2, bport); Delay();
         i += 1;
 	break; }
 
       case 2 : {
-	outb(0x04, bport); Delay();
+	outb(4, bport); Delay();
         i += 1;
 	break; }
 
       case 3 : {
-	outb(0x08, bport); Delay();
+	outb(8, bport); Delay();
         i = 0;
 	break; }
       }
@@ -41,25 +41,25 @@ void motor_ligero(unsigned long int bport, signed short int rotacion)
     switch(i)
       {
       case 0 : {
-	outb(0x08, bport); Delay();
+	outb(8, bport); Delay();
         i += 1;
 	break; }
 
       case 1 : {
-	outb(0x04, bport); Delay();
+	outb(4, bport); Delay();
         i += 1;
 	break; }
 
       case 2 : {
-	outb(0x02, bport); Delay();
+	outb(2, bport); Delay();
         i += 1;
 	break; }
 
       case 3 : {
-	outb(0x01, bport); Delay();
+	outb(1, bport); Delay();
         i = 0;
 	break; }
       }
   }
-  fprintf(stderr,".");
+//  fprintf(stderr,".");
 }
