@@ -1,0 +1,27 @@
+CC=gcc
+CPP=g++
+CFLAGS=-O6 -W -Wall -pedantic
+DEBFLAGS=-ggdb
+LIBS=`sdl-config --cflags --libs` -LSDL_image
+LINSRC=linux/
+
+motor: linux_motor_ligero.o linux_motor_lento.o delay.o motor.o
+	$(CC) linux_motor_ligero.o linux_motor_lento.o delay.o motor.o -o motor
+
+motor.o: motor.c motor.h
+	$(CC) $(CFLAGS) -c motor.c
+
+delay.o: delay.c delay.h
+	$(CC) S(CFLAGS) -c delay.c
+
+linux_motor_lento.o: linux_motor_lento.c linux_motor_lento.h
+	$(CC) S(CFLAGS) -c linux_motor_lento.c
+
+linux_motor_ligero.o: linux_motor_ligero.c linux_motor_ligero.h
+	$(CC) S(CFLAGS) -c linux_motor_ligero.c
+
+
+.PHONY: clean
+
+clean:
+	rm *.o motor
