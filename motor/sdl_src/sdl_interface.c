@@ -16,7 +16,7 @@
 
 int main(void)
 {
-  static SDL_Surface *temp;
+  static SDL_Surface *temp, *icon;
   SDL_Surface *a[12];
   int i = 0;
   /* Initialize SDL's video system and check for errors. */
@@ -30,7 +30,8 @@ int main(void)
 
   /* Attempt to set name and icon for the window that we will use. */
   SDL_WM_SetCaption("Motor Test Program", "IMGS/mtp.png");
-  SDL_WM_SetIcon(IMG_Load("IMGS/mtp.png"), NULL);
+  icon = IMG_Load("IMGS/mtp.png");
+  SDL_WM_SetIcon(icon, NULL);
 
   /* Attempt to set a 300x80 hicolor (16-bit) video mode. */
   screen = SDL_SetVideoMode(300, 80, 16, SDL_DOUBLEBUF);
@@ -116,6 +117,7 @@ int main(void)
 
   /* Free memory used by Drawings. */
   for (i = 0; i < 12; i++) SDL_FreeSurface(a[i]);
+  SDL_FreeSurface(icon);
   Free_images();
   return 0;
 }

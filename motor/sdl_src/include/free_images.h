@@ -8,4 +8,4 @@
 
 #include "sdl_interface.h"
 
-void Free_images(void);
+inline void Free_images(void);

@@ -91,12 +91,12 @@ short int HandleEvent(SDL_Surface *(a[]), SDL_Surface *screen)
 	printf("Boton 9\n"); usleep(low_or_high);
 	break;
       case SDLK_ESCAPE:  /* If Esc is pressed return 0. */
-	return 0;
+	exit(0);
 	break;
       }
       break;
     case SDL_QUIT: /* If the close window button from the */
-      return 0;    /* X server is pressed, then return 0. */
+      exit(0);
       break;
     }
   }
