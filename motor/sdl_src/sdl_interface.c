@@ -223,7 +223,7 @@ int main(void)
 if (tecla != 0)
 {
 
-      switch(keysym.sym) {
+      switch(tecla) {
 
       case 1:
 
