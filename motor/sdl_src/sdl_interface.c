@@ -13,6 +13,13 @@
 /*****************************************************/
 
 #include "include/sdl_interface.h"
+#include "include/motor.h"
+#include "linux/include/linux_motor_ligero.h"
+#include "linux/include/linux_motor_lento.h"
+
+#define BASEPORT0 0x3bc /* lp0 */
+#define BASEPORT 0x378 /* lp1 */
+#define BASEPORT2 0x278 /* lp2 */
 
 int main(void)
 {
@@ -24,10 +31,18 @@ int main(void)
 
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, 0);
 
+  /* Get access to the ports */
+  if (ioperm(BASEPORT, 3, 1)) { printf("Debes tener privilegios de root para usar este programa.\n");perror("ioperm"); exit(1); 
+}
+
+  /* Set the data signals (D0-7) of the port to all low (0) */
+  outb(0x0, BASEPORT); 
+  printf("\nAll lines set to OFF.\n");
+
   /* Initialize SDL's video system and check for errors. */
   if (SDL_Init(SDL_INIT_VIDEO) != 0) {
     printf("Unable to initialize SDL: %s\n", SDL_GetError());
-    return 1;
+    exit(1);
   }
 
   /* Make sure SDL_Quit gets called when the program exits! */
@@ -42,7 +57,7 @@ int main(void)
   screen = SDL_SetVideoMode(300, 80, 16, SDL_DOUBLEBUF);
   if (screen == NULL) {
     printf("Unable to set video mode: %s\n", SDL_GetError());
-    return 1;
+    exit(1);
   }
 
   /* Load the background. */
@@ -50,7 +65,7 @@ int main(void)
   background = SDL_DisplayFormat(temp);
   if (background == NULL) {
     printf("Unable to load background: %s\n", SDL_GetError());
-    return 1;
+    exit(1);
   }
   SDL_FreeSurface(temp);
 
@@ -120,9 +135,13 @@ int main(void)
     /* Handle Events. */
     switch (event.type) {
     case SDL_KEYDOWN:
+
       keysym = event.key.keysym;
+
       switch(keysym.sym) {
+
       case SDLK_PAGEUP:
+
 	src.w = a[10]->w;
 	src.h = a[10]->h;
 	dest.x = 242;
@@ -130,11 +149,16 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[10], &src, screen, &dest);
+
 	if (low_or_high != 100000) low_or_high += 10000;
+
 	usleep(100000);
+
 	printf("usleep %d\n", low_or_high);
 	break;
+
       case SDLK_PAGEDOWN:
+
 	src.w = a[10]->w;
 	src.h = a[10]->h;
 	dest.x = 0;
@@ -142,14 +166,21 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[10], &src, screen, &dest);
+
 	if (low_or_high != 10000) low_or_high -= 10000;
+
 	usleep(100000);
+
 	printf("usleep %d\n", low_or_high);
 	break;
+
       case SDLK_KP0:
+
 	printf("Boton 0\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP1:
+
 	src.w = a[8]->w;
 	src.h = a[8]->h;
 	dest.x = 63;
@@ -157,12 +188,19 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[8], &src, screen, &dest);
+
+	motor_lento(BASEPORT, -1);
+
 	printf("Boton 1\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP2:
+
 	printf("Boton 2\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP3:
+
 	src.w = a[9]->w;
 	src.h = a[9]->h;
 	dest.x = 180;
@@ -170,9 +208,14 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[9], &src, screen, &dest);
+
+	motor_lento(BASEPORT, 1);
+	
 	printf("Boton 3\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP4:
+
 	src.w = a[4]->w;
 	src.h = a[4]->h;
 	dest.x = 63;
@@ -180,12 +223,19 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[4], &src, screen, &dest);
+
+	motor_ligero(BASEPORT, 1);
+
 	printf("Boton 4\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP5:
+
 	printf("Boton 5\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP6:
+
 	src.w = a[5]->w;
 	src.h = a[5]->h;
 	dest.x = 180;
@@ -193,18 +243,29 @@ int main(void)
 	dest.w = src.w;
 	dest.h = src.h;
 	SDL_BlitSurface(a[5], &src, screen, &dest);
+
+	motor_ligero(BASEPORT, -1);
+
 	printf("Boton 6\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP7:
+
 	printf("Boton 7\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP8:
+
 	printf("Boton 8\n"); usleep(low_or_high);
 	break;
+
       case SDLK_KP9:
+
 	printf("Boton 9\n"); usleep(low_or_high);
 	break;
+
       case SDLK_ESCAPE:  /* If Esc is pressed return 0. */
+
 	exit(0);
 	break;
       }
@@ -213,12 +274,20 @@ int main(void)
       exit(0);
       break;
     }
+
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
   
   /* Free memory used by Drawings. */
   for (i = 0; i < 12; i++) SDL_FreeSurface(a[i]);
   SDL_FreeSurface(icon);
-  Free_images();
+  if ( Free_images()){printf("\nError liberando memoria.\n"); exit(1);}
+
+  outb(0x0, BASEPORT);
+  fprintf(stderr,"\nAll lines set to OFF again.\n");
+
+  /* We don't need the ports anymore */
+  if (ioperm(BASEPORT, 3, 0)) {perror("ioperm"); exit(1);}
+
   return 0;
 }
