@@ -29,11 +29,9 @@ int main(void)
   int low_or_high = 10000;
   SDL_Event event; 
 
-  SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, 0);
-
   /* Get access to the ports */
   if (ioperm(BASEPORT, 3, 1)) { printf("Debes tener privilegios de root para usar este programa.\n");perror("ioperm"); exit(1); 
-}
+  }
 
   /* Set the data signals (D0-7) of the port to all low (0) */
   outb(0x0, BASEPORT); 
@@ -72,8 +70,8 @@ int main(void)
   Load_images(a);
 
   /* Handle Events. */
-  while ( SDL_WaitEvent(&event) != 0 ) {
-    SDL_keysym keysym;
+  while (1) {
+
     /* Draw the background. */
     
     src.x = 0;
@@ -131,14 +129,14 @@ int main(void)
     dest.w = src.w;
     dest.h = src.h;
     SDL_BlitSurface(a[7], &src, screen, &dest);
-    
+
+while(SDL_PollEvent(&event))
+{    
     /* Handle Events. */
     switch (event.type) {
     case SDL_KEYDOWN:
 
-      keysym = event.key.keysym;
-
-      switch(keysym.sym) {
+      switch(event.key.keysym.sym) {
 
       case SDLK_PAGEUP:
         tecla = 1;
@@ -151,175 +149,167 @@ int main(void)
         break;
 
       case SDLK_KP1:
-		  tecla = 3;
-        printf("Boton 1\n"); usleep(low_or_high);
+	tecla = 3;
+        printf("Boton 1\n");
         break;
 
       case SDLK_KP3:
-		  tecla = 4;
-        printf("Boton 3\n"); usleep(low_or_high);
+	tecla = 4;
+        printf("Boton 3\n");
         break;
 
       case SDLK_KP4:
-		  tecla = 5;
-        printf("Boton 4\n"); usleep(low_or_high);
+	tecla = 5;
+        printf("Boton 4\n");
         break;
 
       case SDLK_KP6:
-		  tecla = 6;
-        printf("Boton 6\n"); usleep(low_or_high);
+	tecla = 6;
+        printf("Boton 6\n");
         break;
 
       case SDLK_ESCAPE:  /* If Esc is pressed return 0. */
 
         exit(0);
         break;
+
+      default:
+	break;
       }
       break;
 
     case SDL_KEYUP:
 
-      keysym = event.key.keysym;
-
-      switch(keysym.sym) {
+      switch(event.key.keysym.sym) {
 
       case SDLK_PAGEUP:
-		  tecla = 0;
-        printf("usleep %d\n", low_or_high);
+	tecla = 0;
         break;
 
       case SDLK_PAGEDOWN:
-		  tecla = 0;
-        printf("usleep %d\n", low_or_high);
+	tecla = 0;
         break;
 
       case SDLK_KP1:
-		  tecla = 0;
-        printf("Boton 1\n"); usleep(low_or_high);
+	tecla = 0;
         break;
 
       case SDLK_KP3:
-		  tecla = 0;
-        printf("Boton 3\n"); usleep(low_or_high);
+	tecla = 0;
         break;
 
       case SDLK_KP4:
         tecla = 0;
-        printf("Boton 4\n"); usleep(low_or_high);
         break;
 
       case SDLK_KP6:
-		  tecla = 0;
-        printf("Boton 6\n"); usleep(low_or_high);
+	tecla = 0;
         break;
+
+      default:
+	break;
       }
       break;
 
-   case SDL_QUIT: /* If the close window button from the */
+    case SDL_QUIT: /* If the close window button from the */
       exit(0);
       break;
+
+    default:
+      break;
+    }
 }
 
-if (tecla != 0)
-{
+    switch(tecla) {
+      
+    case 1:
+      
+      src.w = a[10]->w;
+      src.h = a[10]->h;
+      dest.x = 242;
+      dest.y = 5;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[10], &src, screen, &dest);
 
-      switch(tecla) {
+      if (low_or_high != 100000) low_or_high += 10000;
+      usleep(100000);
+      break;
 
-      case 1:
+    case 2:
 
-        src.w = a[10]->w;
-        src.h = a[10]->h;
-        dest.x = 242;
-        dest.y = 5;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[10], &src, screen, &dest);
+      src.w = a[10]->w;
+      src.h = a[10]->h;
+      dest.x = 0;
+      dest.y = 5;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[10], &src, screen, &dest);
 
-        if (low_or_high != 100000) low_or_high += 10000;
+      if (low_or_high != 10000) low_or_high -= 10000;
+      usleep(100000);
+      break;
 
-        usleep(100000);
+    case 3:
 
-        printf("usleep %d\n", low_or_high);
-        break;
+      src.w = a[8]->w;
+      src.h = a[8]->h;
+      dest.x = 63;
+      dest.y = 44;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[8], &src, screen, &dest);
 
-      case 2:
+      motor_lento(BASEPORT, -1);
+      usleep(low_or_high);
+      break;
 
-        src.w = a[10]->w;
-        src.h = a[10]->h;
-        dest.x = 0;
-        dest.y = 5;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[10], &src, screen, &dest);
+    case 4:
 
-        if (low_or_high != 10000) low_or_high -= 10000;
+      src.w = a[9]->w;
+      src.h = a[9]->h;
+      dest.x = 180;
+      dest.y = 44;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[9], &src, screen, &dest);
 
-        usleep(100000);
+      motor_lento(BASEPORT, 1);
+      usleep(low_or_high);
+      break;
 
-        printf("usleep %d\n", low_or_high);
-        break;
+    case 5:
 
-      case 3:
+      src.w = a[4]->w;
+      src.h = a[4]->h;
+      dest.x = 63;
+      dest.y = 0;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[4], &src, screen, &dest);
 
-        src.w = a[8]->w;
-        src.h = a[8]->h;
-        dest.x = 63;
-        dest.y = 44;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[8], &src, screen, &dest);
+      motor_ligero(BASEPORT, -1);
+      usleep(low_or_high);
+      break;
 
-        motor_lento(BASEPORT, -1);
+    case 6:
 
-        printf("Boton 1\n"); usleep(low_or_high);
-        break;
+      src.w = a[5]->w;
+      src.h = a[5]->h;
+      dest.x = 180;
+      dest.y = 0;
+      dest.w = src.w;
+      dest.h = src.h;
+      SDL_BlitSurface(a[5], &src, screen, &dest);
 
-      case 4:
+      motor_ligero(BASEPORT, 1);
+      usleep(low_or_high);
+      break;
+    
+    default:
+      break;
 
-        src.w = a[9]->w;
-        src.h = a[9]->h;
-        dest.x = 180;
-        dest.y = 44;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[9], &src, screen, &dest);
-
-        motor_lento(BASEPORT, 1);
-
-        printf("Boton 3\n"); usleep(low_or_high);
-        break;
-
-      case 5:
-
-        src.w = a[4]->w;
-        src.h = a[4]->h;
-        dest.x = 63;
-        dest.y = 0;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[4], &src, screen, &dest);
-
-        motor_ligero(BASEPORT, 1);
-
-        printf("Boton 4\n"); usleep(low_or_high);
-        break;
-
-      case 6:
-
-        src.w = a[5]->w;
-        src.h = a[5]->h;
-        dest.x = 180;
-        dest.y = 0;
-        dest.w = src.w;
-        dest.h = src.h;
-        SDL_BlitSurface(a[5], &src, screen, &dest);
-
-        motor_ligero(BASEPORT, -1);
-
-        printf("Boton 6\n"); usleep(low_or_high);
-        break;
-      }
-}
+    }
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
 
