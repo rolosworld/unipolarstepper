@@ -10,7 +10,7 @@
 
 #include "include/free_images.h"
 
-int Free_images(void)
+inline int Free_images(void)
 {
     SDL_FreeSurface(background);
     SDL_FreeSurface(screen);

@@ -18,5 +18,3 @@ static SDL_Surface *background;
 
 short int HandleEvent(SDL_Surface *, SDL_Surface *);
 void Load_images(SDL_Surface *);
-
-inline int Free_images(void);

@@ -281,7 +281,8 @@ int main(void)
   /* Free memory used by Drawings. */
   for (i = 0; i < 12; i++) SDL_FreeSurface(a[i]);
   SDL_FreeSurface(icon);
-  if ( Free_images()){printf("\nError liberando memoria.\n"); exit(1);}
+  SDL_FreeSurface(background);
+  SDL_FreeSurface(screen);
 
   outb(0x0, BASEPORT);
   fprintf(stderr,"\nAll lines set to OFF again.\n");
