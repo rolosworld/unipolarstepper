@@ -5,8 +5,8 @@ DEB=-ggdb
 LIBS=`sdl-config --cflags --libs` -lSDL_image
 LINSRC=linux/
 
-interface: load_images.o handle_events.o free_images.o sdl_interface.o
-	$(CC) $(LIBS) $(DEB) load_images.o handle_events.o free_images.o sdl_interface.o -o interface
+interface: load_images.o free_images.o sdl_interface.o
+	$(CC) $(LIBS) $(DEB) load_images.o free_images.o sdl_interface.o -o interface
 
 sdl_interface.o: sdl_interface.c
 	$(CC) $(DEB) -c sdl_interface.c
